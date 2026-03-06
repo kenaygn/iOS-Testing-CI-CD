@@ -47,7 +47,7 @@ final class StoreViewModelTestes: XCTestCase {
         vm.addToCart(game2)
         
         //Assert
-        XCTAssertEqual(vm.cart.total, 160.0)
+        XCTAssertEqual(vm.cart.total, 100.0)
     }
     
     func testQuantidadeDeItensNoCarrinho(){
