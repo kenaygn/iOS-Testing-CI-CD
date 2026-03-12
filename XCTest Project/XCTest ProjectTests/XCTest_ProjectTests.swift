@@ -10,8 +10,55 @@ import Testing
 @testable import XCTest_Project
 
 @MainActor
+final class StoreIntegrationTests: XCTestCase {
+
+    func testCartFlowIntegration() {
+        let viewModel = StoreViewModel()
+
+        let gow = Game(id: 1, title: "God of War", price: 199.90)
+        let tlou = Game(id: 2, title: "The Last of Us", price: 249.90)
+
+        
+        viewModel.addToCart(gow)
+        viewModel.addToCart(tlou)
+
+        XCTAssertEqual(viewModel.totalItems, 2)
+        XCTAssertEqual(viewModel.cart.items.count, 2)
+
+       
+        viewModel.addToCart(gow)
+
+        XCTAssertEqual(viewModel.quantity(for: gow), 2)
+        XCTAssertEqual(viewModel.totalItems, 3)
+
+        XCTAssertEqual(
+            viewModel.total,
+            199.90 * 2 + 249.90,
+            accuracy: 0.001
+        )
+
+        viewModel.removeOne(gow)
+
+        XCTAssertEqual(viewModel.quantity(for: gow), 1)
+        XCTAssertEqual(viewModel.totalItems, 2)
+
+        viewModel.removeAll(of: tlou)
+
+        XCTAssertFalse(viewModel.contains(tlou))
+        XCTAssertEqual(viewModel.totalItems, 1)
+
+        viewModel.clearCart()
+
+        XCTAssertTrue(viewModel.isCartEmpty)
+        XCTAssertEqual(viewModel.totalItems, 0)
+        XCTAssertEqual(viewModel.total, 0)
+    }
+}
+
+@MainActor
 struct StoreViewModelSwiftTesting {
     
+
     @Test
     func somarValores(){
         //Arrange
