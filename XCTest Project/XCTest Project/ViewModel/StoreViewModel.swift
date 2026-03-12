@@ -1,14 +1,8 @@
-//
-//  StoreViewModel.swift
-//  XCTest Project
-//
-//  Created by Kenay on 03/03/26.
-//
-
-
 import Foundation
+import Observation
 
 @MainActor
+@Observable
 class StoreViewModel {
     
     var cart: Cart
@@ -20,7 +14,6 @@ class StoreViewModel {
     // MARK: - Add
 
     func addToCart(_ game: Game) {
-
         var currentItems = cart.items
         
         if let index = currentItems.firstIndex(where: { $0.game.id == game.id }) {
@@ -38,7 +31,6 @@ class StoreViewModel {
     // MARK: - Remove one
 
     func removeOne(_ game: Game) {
-
         var currentItems = cart.items
         
         guard let index = currentItems.firstIndex(where: { $0.game.id == game.id }) else {
@@ -67,12 +59,10 @@ class StoreViewModel {
     // MARK: - Set quantity
 
     func setQuantity(_ quantity: Int, for game: Game) {
-
         var currentItems = cart.items
         let safeQuantity = max(0, quantity)
 
         if let index = currentItems.firstIndex(where: { $0.game.id == game.id }) {
-
             if safeQuantity == 0 {
                 currentItems.remove(at: index)
             } else {
@@ -80,9 +70,7 @@ class StoreViewModel {
                 item.quantity = safeQuantity
                 currentItems[index] = item
             }
-
         } else if safeQuantity > 0 {
-
             let newItem = CartItem(game: game, quantity: safeQuantity)
             currentItems.append(newItem)
         }
@@ -99,26 +87,26 @@ class StoreViewModel {
     // MARK: - Helpers
 
     var total: Double {
-        return cart.total
+        cart.total
     }
 
     var totalItems: Int {
-        return cart.items.reduce(0) { $0 + $1.quantity }
+        cart.items.reduce(0) { $0 + $1.quantity }
     }
 
     var isCartEmpty: Bool {
-        return cart.items.isEmpty
+        cart.items.isEmpty
     }
 
     func quantity(for game: Game) -> Int {
-        return cart.items.first(where: { $0.game.id == game.id })?.quantity ?? 0
+        cart.items.first(where: { $0.game.id == game.id })?.quantity ?? 0
     }
 
     func contains(_ game: Game) -> Bool {
-        return cart.items.contains(where: { $0.game.id == game.id })
+        cart.items.contains(where: { $0.game.id == game.id })
     }
 
     func item(for game: Game) -> CartItem? {
-        return cart.items.first(where: { $0.game.id == game.id })
+        cart.items.first(where: { $0.game.id == game.id })
     }
 }
