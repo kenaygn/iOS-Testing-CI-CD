@@ -31,10 +31,8 @@ Objetivos principais:
 
 ## Abordagens e boas práticas mostradas
 - Testes unitários com XCTest e organização de suites.
-- Testes assíncronos e uso de Swift Concurrency em testes.
 - UI tests com XCUITest: configuração de targets, identificação de elementos e estabilidade.
 - Estratégias de mocking e injeção de dependências para isolamento.
-- Dicas para reduzir fragilidade de UI tests (waits, identifiers, snapshots opcionais).
 - Instrumentação mínima para melhorar observabilidade dos testes.
 
 ---
